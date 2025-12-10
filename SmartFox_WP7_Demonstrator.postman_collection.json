@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "0675a25e-02bd-41dd-9fb1-79ddb5ef3b13",
+		"name": "Smartfox Demonstrator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46848229",
+		"_collection_link": "https://ala-1186813.postman.co/workspace/ALa's-Workspace~d5bf0555-abd2-4dd3-8d07-90b19735cf85/collection/46848229-0675a25e-02bd-41dd-9fb1-79ddb5ef3b13?action=share&source=collection_link&creator=46848229"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client-id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client-secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://auth.smart-fox.at/realms/Smartfox-AHDDS/protocol/openid-connect/token",
+					"protocol": "https",
+					"host": [
+						"auth",
+						"smart-fox",
+						"at"
+					],
+					"path": [
+						"realms",
+						"Smartfox-AHDDS",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CommunicationRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"CommunicationRequest\",\r\n  \"status\": \"active\",\r\n  \"category\": [\r\n    {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://terminology.hl7.org/CodeSystem/communication-category\",\r\n          \"code\": \"notification\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"priority\": \"routine\",\r\n  \"medium\": [\r\n    {\r\n      \"coding\": [\r\n        {\r\n          \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ParticipationMode\",\r\n          \"code\": \"ONLINEWRIT\",\r\n          \"display\": \"online written\"\r\n        }\r\n      ],\r\n      \"text\": \"online written\"\r\n    }\r\n  ],\r\n  \"payload\": [\r\n    {\r\n      \"contentReference\": {\r\n         \"reference\": \"ResearchStudy/1001\"\r\n      }\r\n    }\r\n  ],\r\n  \"authoredOn\": \"2026-06-10T11:01:10-08:00\",\r\n  \"requester\": {\r\n    \"type\": \"Organization\",\r\n    \"reference\": \"Organization/1000\"\r\n  },\r\n  \"recipient\": [\r\n    {\r\n      \"type\": \"Patient\",\r\n      \"identifier\": {\r\n        \"value\": \"[EUPID_1]\"\r\n      }\r\n    },\r\n    {\r\n      \"type\": \"Patient\",\r\n      \"identifier\": {\r\n        \"value\": \"[EUPID_2]\"\r\n      }\r\n    },\r\n    {\r\n      \"type\": \"Patient\",\r\n      \"identifier\": {\r\n        \"value\": \"[EUPID_3]\"\r\n      }\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{FHIR_SERVER_BASE_URL}}/fhir/CommunicationRequest/",
+					"host": [
+						"{{FHIR_SERVER_BASE_URL}}"
+					],
+					"path": [
+						"fhir",
+						"CommunicationRequest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResearchStudy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{FHIR_SERVER_BASE_URL}}/fhir/ResearchStudy",
+					"host": [
+						"{{FHIR_SERVER_BASE_URL}}"
+					],
+					"path": [
+						"fhir",
+						"ResearchStudy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResearchStudy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"resourceType\": \"ResearchStudy\",\r\n    \"id\": \"test-trial-1\",\r\n    \"title\": \"An example of a trial FHIR ResearchStudy resource\",\r\n    \"status\": \"active\",\r\n    \"identifier\": [{\r\n        \"value\": \"test-trial-1\"\r\n    }],\r\n    \"category\": [{\r\n        \"coding\": [{\r\n            \"system\": \"eHealth-Solutions-Research-Studies\",\r\n            \"code\": \"targeted\",\r\n            \"display\": \"Directed Study indicator\"\r\n        }]},\r\n        {\r\n        \"coding\": [{\r\n            \"system\": \"eHealth-Solutions-DataDonate-Purpose\",\r\n            \"code\": \"academic-research\",\r\n            \"display\": \"Academic Research\"\r\n        }]}\r\n    ],\r\n    \"condition\": [{\r\n        \"coding\": [{\r\n            \"system\": \"http://loinc.org\",\r\n            \"code\": \"11502-2\",\r\n            \"display\": \"Laboratory report\"\r\n            }]\r\n        },\r\n        {\r\n        \"coding\": [\r\n            {\r\n            \"system\": \"http://loinc.org\",\r\n            \"code\": \"18842-5\",\r\n            \"display\": \"Discharge summary\"\r\n            }]\r\n        }\r\n    ],\r\n    \"relatedArtifact\": [{\r\n        \"type\": \"documentation\",\r\n        \"url\": \"https://www.example.com\"\r\n    }],\r\n    \"location\": [\r\n    {\r\n        \"coding\": [{\r\n            \"system\": \"urn:iso:std:iso:3166:-2\",\r\n            \"code\": \"EU\",\r\n            \"display\": \"European Union\"\r\n        }]\r\n    },\r\n    {\r\n        \"coding\": [{\r\n            \"system\": \"wrongLocationSystem\",\r\n            \"code\": \"wrongLocationValue\",\r\n            \"display\": \"Should not be displayed\"\r\n        }]\r\n    }],\r\n    \"description\": \"This trial aims to test the example of a created ResearchStudy.\",\r\n    \"period\": {\r\n        \"start\": \"2025-01-01\",\r\n        \"end\": \"2026-12-31\"\r\n    },\r\n    \"sponsor\": {\r\n        \"reference\": \"Organization/1000\",\r\n        \"type\": \"Organization\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{FHIR_SERVER_BASE_URL}}/fhir/ResearchStudy/",
+					"host": [
+						"{{FHIR_SERVER_BASE_URL}}"
+					],
+					"path": [
+						"fhir",
+						"ResearchStudy",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Organization",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{FHIR_SERVER_BASE_URL}}/fhir/Organization",
+					"host": [
+						"{{FHIR_SERVER_BASE_URL}}"
+					],
+					"path": [
+						"fhir",
+						"Organization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Organization",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"resourceType\" : \"Organization\", \r\n    \"id\" : \"1\", \r\n    \"active\" : true, \r\n    \"type\" : [\r\n        { \r\n            \"coding\" : [\r\n                { \r\n                    \"system\" : \"http://terminology.hl7.org/CodeSystem/organization-type\", \r\n                    \"code\" : \"bus\", \"display\" : \"Non-Healthcare Business or Corporation\" \r\n                }\r\n            ] \r\n        }\r\n    ], \r\n    \"name\" : \"Test Organization\",\r\n    \"contact\" : [{\r\n        \"purpose\" : {\r\n            \"coding\" : [{\r\n            \"system\" : \"http://terminology.hl7.org/CodeSystem/contactentity-type\",\r\n            \"code\" : \"ADMIN\"\r\n            }\r\n        ]},\r\n        \"name\": {\r\n            \"text\": \"Mr*s Contact\"\r\n        },\r\n        \"telecom\" : [{\r\n            \"system\" : \"phone\",\r\n            \"value\" : \"012 345 6789-0\"\r\n        },\r\n        {\r\n            \"system\" : \"email\",\r\n            \"value\" : \"mail@test.org\"\r\n        }],\r\n        \"address\" : {\r\n        \"line\" : [\"Some Street 1\"]\r\n        }\r\n  }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{FHIR_SERVER_BASE_URL}}/fhir/Organization/",
+					"host": [
+						"{{FHIR_SERVER_BASE_URL}}"
+					],
+					"path": [
+						"fhir",
+						"Organization",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
